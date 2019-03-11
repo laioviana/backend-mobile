@@ -1,2 +1,2 @@
 # backend-mobile
-A mobile backend using Java
+A mobile app backend using Java
