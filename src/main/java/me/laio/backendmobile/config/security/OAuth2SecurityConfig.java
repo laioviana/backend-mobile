@@ -1,5 +1,6 @@
 package me.laio.backendmobile.config.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,6 +15,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class OAuth2SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private CustomAuthenticationProvider authenticationProvider;
+
+    @Override
     public void configure(WebSecurity web) throws Exception {
         super.configure(web);
         web.ignoring().mvcMatchers("/favincon.ico", "/webjars/**", "/css/**");
@@ -24,7 +29,7 @@ public class OAuth2SecurityConfig extends WebSecurityConfigurerAdapter {
         http.requestMatchers().antMatchers("/oauth/authorize")
                 .and().authorizeRequests().antMatchers("/oauth/authorize").authenticated()
                 .and().csrf().disable()
-                .authenticationProvider();
+                .authenticationProvider(authenticationProvider);
     }
 
     @SuppressWarnings("deprecation")
